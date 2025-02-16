@@ -10,6 +10,8 @@ import org.openqa.selenium.support.ui.Select;
 class Lab1Test {
   private WebDriver driver;
   private DemoShopPage demoShopPage;
+  private CommonBrowserActions commonBrowserActions;
+  DemoqoPage demoqoPage;
 
   @BeforeAll
   static void beforeAll() {
@@ -20,7 +22,8 @@ class Lab1Test {
   void beforeEach() {
     driver = new FirefoxDriver();
     demoShopPage = new DemoShopPage(driver);
-    demoShopPage.openPage();
+    commonBrowserActions = new CommonBrowserActions(driver);
+    demoqoPage = new DemoqoPage(driver);
   }
 
   @AfterEach
@@ -30,31 +33,62 @@ class Lab1Test {
 
   @Test
   void lab1() {
-    demoShopPage.clickLinkInsideElementWithSelector(
+    demoShopPage.openPage();
+    commonBrowserActions.clickLinkInsideElementWithSelector(
         By.cssSelector("[class*=leftside]"), "Gift Cards");
     demoShopPage.openFirstProductWithPriceHigherThan("99");
-    demoShopPage.fillInInputByClassWithValue("recipient-name", "recipient");
-    demoShopPage.fillInInputByClassWithValue("sender-name", "sender");
-    demoShopPage.fillInInputByClassWithValue("qty-input", "5000");
+    commonBrowserActions.fillInInputByClassWithValue("recipient-name", "recipient");
+    commonBrowserActions.fillInInputByClassWithValue("sender-name", "sender");
+    commonBrowserActions.fillInInputByClassWithValue("qty-input", "5000");
     demoShopPage.clickButtonInItemOverviewByText("Add to cart");
-    demoShopPage.waitUntilElementDisplayed(By.cssSelector("[id='bar-notification']"));
+    commonBrowserActions.waitUntilElementDisplayed(By.cssSelector("[id='bar-notification']"));
     demoShopPage.clickButtonInItemOverviewByText("Add to wishlist");
-    demoShopPage.clickLinkInsideElementWithSelector(By.cssSelector("[class*=side]"), "Jewelry");
-    demoShopPage.clickButtonByText("Create Your Own Jewelry");
+    commonBrowserActions.clickLinkInsideElementWithSelector(
+        By.cssSelector("[class*=side]"), "Jewelry");
+    commonBrowserActions.clickLinkByText("Create Your Own Jewelry");
 
     var materialSelect = new Select(driver.findElement(By.tagName("select")));
     materialSelect.selectByVisibleText("Silver (1 mm)");
 
-    demoShopPage.fillInInputByClassWithValue("textbox", "5000");
+    commonBrowserActions.fillInInputByClassWithValue("textbox", "5000");
     demoShopPage.clickRadioButtonWithTextInProductOverview("Star ");
-    demoShopPage.fillInInputByClassWithValue("qty-input", "26");
+    commonBrowserActions.fillInInputByClassWithValue("qty-input", "26");
     demoShopPage.clickButtonInItemOverviewByText("Add to cart");
-    demoShopPage.waitUntilElementDisplayed(By.cssSelector("[id='bar-notification']"));
+    commonBrowserActions.waitUntilElementDisplayed(By.cssSelector("[id='bar-notification']"));
     demoShopPage.clickButtonInItemOverviewByText("Add to wishlist");
     demoShopPage.clickWishlistLink();
     demoShopPage.clickAllAddToCartCheckboxes();
-    demoShopPage.clickInputByValue("Add to cart");
+    commonBrowserActions.clickInputByValue("Add to cart");
 
     demoShopPage.validateSubTotalInCartOverview("1002600.00");
+  }
+
+  @Test
+  void lab2() {
+    demoqoPage.openPage();
+    commonBrowserActions.clickElementContainingText(HtmlElement.H5, "Widgets");
+    commonBrowserActions.clickElementContainingText(HtmlElement.SPAN, "Progress Bar");
+    commonBrowserActions.clickElementContainingText(HtmlElement.BUTTON, "Start");
+    commonBrowserActions.waitUntilTextIsPresent("100%");
+    commonBrowserActions.clickElementContainingText(HtmlElement.BUTTON, "Reset");
+    commonBrowserActions.waitUntilTextIsPresent("0%");
+  }
+
+  @Test
+  void lab3() {
+    demoqoPage.openPage();
+    commonBrowserActions.clickElementContainingText(HtmlElement.H5, "Elements");
+    commonBrowserActions.clickElementContainingText(HtmlElement.SPAN, "Web Tables");
+    commonBrowserActions.performActionUntilElementDisplayed(
+        By.xpath("//span[@class='-totalPages' and text() = '2']"),
+        demoqoPage.getCreateUserForDemoqoAction());
+
+    var nextButton =
+        commonBrowserActions.getElementsContainingText(HtmlElement.BUTTON, "Next").getFirst();
+    commonBrowserActions.scrollElementIntoView(nextButton);
+    nextButton.click();
+
+    demoqoPage.clickFirstDeleteButtonInUserList();
+    demoqoPage.validatePageCount(1);
   }
 }
