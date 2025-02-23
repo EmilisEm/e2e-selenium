@@ -1,8 +1,9 @@
-package lab1;
+package common;
 
 import java.time.Duration;
 import java.util.List;
 import java.util.function.Consumer;
+import lab1.HtmlElement;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
@@ -58,6 +59,10 @@ public class CommonBrowserActions {
     element.findElement(By.xpath("//input[@value='%s']".formatted(text))).click();
   }
 
+  public void clickElementById(String id) {
+    driver.findElement(By.id(id)).click();
+  }
+
   public List<WebElement> getElementsContainingText(String text) {
     return driver.findElements(By.xpath("//*[text()[contains(., '%s')]]".formatted(text)));
   }
@@ -80,13 +85,14 @@ public class CommonBrowserActions {
     wait.until(it -> it.findElement(selector).isDisplayed());
   }
 
+  public void waitUntilElementNotDisplayed(By selector) {
+    Wait<WebDriver> wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+    wait.until(it -> !it.findElement(selector).isDisplayed());
+  }
+
   public void scrollElementIntoView(WebElement element) {
     ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
-    try {
-      Thread.sleep(500);
-    } catch (InterruptedException e) {
-      throw new RuntimeException(e);
-    }
+    driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(1));
   }
 
   private void clickButtonInsideElementByText(WebElement element, String text) {

@@ -1,5 +1,6 @@
 package lab1;
 
+import common.CommonBrowserActions;
 import java.util.function.Consumer;
 import lombok.RequiredArgsConstructor;
 import org.openqa.selenium.By;
@@ -11,7 +12,7 @@ public class DemoqoPage {
   private CommonBrowserActions commonBrowserActions;
 
   public void openPage() {
-    driver.get("https://demoqa.com/");
+    driver.get("http://web.archive.org/web/20240208220128/https://demoqa.com/");
     commonBrowserActions = new CommonBrowserActions(driver);
   }
 
@@ -35,5 +36,11 @@ public class DemoqoPage {
   public void validatePageCount(int expectedPageCount) {
     driver.findElement(
         By.xpath("//span[@class='-totalPages' and text() = '%d']".formatted(expectedPageCount)));
+  }
+
+  public void validateCurrentPageCount(int expectedPageCount) {
+    driver.findElement(
+        By.xpath(
+            "//input[@aria-label='jump to page' and @value='%d']".formatted(expectedPageCount)));
   }
 }

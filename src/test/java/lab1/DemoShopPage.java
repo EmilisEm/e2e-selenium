@@ -1,9 +1,11 @@
 package lab1;
 
+import common.CommonBrowserActions;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
 
 public class DemoShopPage {
   private final WebDriver driver;
@@ -44,6 +46,10 @@ public class DemoShopPage {
     driver.findElement(By.cssSelector("[class='wishlist-qty']")).click();
   }
 
+  public void clickCartLink() {
+    driver.findElement(By.cssSelector("[class='cart-qty']")).click();
+  }
+
   public void clickAllAddToCartCheckboxes() {
     driver.findElements(By.xpath("//td[@class='add-to-cart']/input")).forEach(WebElement::click);
   }
@@ -56,5 +62,55 @@ public class DemoShopPage {
     var subTotal = subTotalRow.findElement(By.xpath("//td[@class='cart-total-right']"));
 
     Assertions.assertEquals(expectedTotal, subTotal.getText());
+  }
+
+  public void addToCartFirstElementWithTitle(String title) {
+    driver
+        .findElements(
+            By.xpath(
+                "//div[@class='item-box' and .//h2/a/text()='%s']//input[@value='Add to cart']"
+                    .formatted(title)))
+        .getFirst()
+        .click();
+  }
+
+  public void selectFirstBillingAddressOrFillInNewOne() {
+    var billingAddressElement = driver.findElements(By.id("billing-address-select"));
+    var continueButton =
+        driver.findElement(By.cssSelector("[class*=new-address-next-step-button]"));
+    if (billingAddressElement.isEmpty()) {
+      var countrySelect = new Select(driver.findElement(By.id("BillingNewAddress_CountryId")));
+      countrySelect.selectByVisibleText("United States");
+
+      commonBrowserActions.fillInInputById("BillingNewAddress_City", "a");
+      commonBrowserActions.fillInInputById("BillingNewAddress_Address1", "a");
+      commonBrowserActions.fillInInputById("BillingNewAddress_ZipPostalCode", "a");
+      commonBrowserActions.fillInInputById("BillingNewAddress_PhoneNumber", "a");
+    } else if (billingAddressElement.size() > 1) {
+      Assertions.fail("More than one billing address select found");
+    }
+
+    continueButton.click();
+    commonBrowserActions.waitUntilElementDisplayed(By.id("checkout-step-payment-method"));
+  }
+
+  public void selectPaymentMethod() {
+    var continueButton =
+        driver.findElement(By.cssSelector("[class*=payment-method-next-step-button]"));
+    continueButton.click();
+    commonBrowserActions.waitUntilElementDisplayed(By.id("checkout-step-payment-info"));
+  }
+
+  public void selectPaymentInfo() {
+    var continueButton =
+        driver.findElement(By.cssSelector("[class*=payment-info-next-step-button]"));
+    continueButton.click();
+    commonBrowserActions.waitUntilElementDisplayed(By.id("checkout-step-confirm-order"));
+  }
+
+  public void confirmOrder() {
+    var continueButton =
+        driver.findElement(By.cssSelector("[class*=confirm-order-next-step-button]"));
+    continueButton.click();
   }
 }

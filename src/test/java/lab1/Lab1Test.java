@@ -1,5 +1,6 @@
 package lab1;
 
+import common.CommonBrowserActions;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
@@ -85,10 +86,10 @@ class Lab1Test {
 
     var nextButton =
         commonBrowserActions.getElementsContainingText(HtmlElement.BUTTON, "Next").getFirst();
-    commonBrowserActions.scrollElementIntoView(nextButton);
     nextButton.click();
 
     demoqoPage.clickFirstDeleteButtonInUserList();
     demoqoPage.validatePageCount(1);
+    demoqoPage.validateCurrentPageCount(1);
   }
 }
