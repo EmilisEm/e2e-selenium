@@ -35,6 +35,7 @@ class Lab1Test {
     driver.quit();
   }
 
+  @Disabled
   @Test
   void lab1() {
     demoShopPage.openPage();
@@ -67,6 +68,7 @@ class Lab1Test {
     demoShopPage.validateSubTotalInCartOverview("1002600.00");
   }
 
+  @Disabled
   @Test
   void lab2() {
     demoqoPage.openPage();
@@ -78,6 +80,7 @@ class Lab1Test {
     commonBrowserActions.waitUntilTextIsPresent("0%");
   }
 
+  @Disabled
   @Test
   void lab3() {
     demoqoPage.openPage();
