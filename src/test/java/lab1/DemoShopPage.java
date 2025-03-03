@@ -26,7 +26,7 @@ public class DemoShopPage {
             By.xpath(
                 "//div[@class='item-box' and .//span > %s]//h2[@class='product-title']"
                     .formatted(price)))
-        .getFirst()
+        .get(0)
         .click();
   }
 
@@ -70,7 +70,7 @@ public class DemoShopPage {
             By.xpath(
                 "//div[@class='item-box' and .//h2/a/text()='%s']//input[@value='Add to cart']"
                     .formatted(title)))
-        .getFirst()
+        .get(0)
         .click();
   }
 

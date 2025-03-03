@@ -30,7 +30,7 @@ public class DemoqoPage {
   }
 
   public void clickFirstDeleteButtonInUserList() {
-    driver.findElements(By.cssSelector("[id*='delete-record']")).getFirst().click();
+    driver.findElements(By.cssSelector("[id*='delete-record']")).get(0).click();
   }
 
   public void validatePageCount(int expectedPageCount) {

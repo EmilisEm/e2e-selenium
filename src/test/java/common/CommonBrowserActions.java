@@ -39,7 +39,7 @@ public class CommonBrowserActions {
     var elementsContainingText = getElementsContainingText(element, text);
     Assertions.assertEquals(1, elementsContainingText.size());
 
-    elementsContainingText.getFirst().click();
+    elementsContainingText.get(0).click();
   }
 
   public List<WebElement> getElementsContainingText(HtmlElement element, String text) {

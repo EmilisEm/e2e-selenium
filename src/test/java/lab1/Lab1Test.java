@@ -85,7 +85,7 @@ class Lab1Test {
         demoqoPage.getCreateUserForDemoqoAction());
 
     var nextButton =
-        commonBrowserActions.getElementsContainingText(HtmlElement.BUTTON, "Next").getFirst();
+        commonBrowserActions.getElementsContainingText(HtmlElement.BUTTON, "Next").get(0);
     nextButton.click();
 
     demoqoPage.clickFirstDeleteButtonInUserList();
