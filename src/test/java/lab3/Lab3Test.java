@@ -8,6 +8,8 @@ import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+
+import io.github.bonigarcia.wdm.online.GeckodriverSupport;
 import lab1.DemoShopPage;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -15,6 +17,8 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.firefox.GeckoDriverService;
 
 public class Lab3Test {
   private static final String USER_PASSWORD = "s3cr37";
@@ -85,7 +89,9 @@ public class Lab3Test {
   }
 
   private static void initiateTestContext() {
-    driver = new FirefoxDriver();
+    var options = new FirefoxOptions();
+    options.addArguments("--headless");
+    driver = new FirefoxDriver(options);
     demoShopPage = new DemoShopPage(driver);
     commonBrowserActions = new CommonBrowserActions(driver);
     demoShopPage.openPage();
