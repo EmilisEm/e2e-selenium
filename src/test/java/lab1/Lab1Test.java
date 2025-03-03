@@ -6,6 +6,7 @@ import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.support.ui.Select;
 
 class Lab1Test {
@@ -21,7 +22,9 @@ class Lab1Test {
 
   @BeforeEach
   void beforeEach() {
-    driver = new FirefoxDriver();
+    var options = new FirefoxOptions();
+    options.addArguments("--headless");
+    driver = new FirefoxDriver(options);
     demoShopPage = new DemoShopPage(driver);
     commonBrowserActions = new CommonBrowserActions(driver);
     demoqoPage = new DemoqoPage(driver);
