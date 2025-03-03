@@ -17,7 +17,7 @@ public class DemoqoPage {
   }
 
   public Consumer<Void> getCreateUserForDemoqoAction() {
-    return (_) -> {
+    return (temp) -> {
       commonBrowserActions.clickElementContainingText(HtmlElement.BUTTON, "Add");
       commonBrowserActions.fillInInputById("firstName", "a");
       commonBrowserActions.fillInInputById("lastName", "a");
