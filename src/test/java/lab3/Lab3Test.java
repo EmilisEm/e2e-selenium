@@ -55,7 +55,7 @@ public class Lab3Test {
 
   @ParameterizedTest
   @ValueSource(strings = {"data1.txt", "data2.txt"})
-  void placeOrder(String fileName) {
+  void placeOrderTest(String fileName) {
     var data = loadDataFromFile(fileName);
 
     commonBrowserActions.clickLinkByText("Log in");
