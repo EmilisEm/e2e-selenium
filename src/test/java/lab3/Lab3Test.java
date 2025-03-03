@@ -2,8 +2,6 @@ package lab3;
 
 import common.CommonBrowserActions;
 import io.github.bonigarcia.wdm.WebDriverManager;
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -98,9 +96,9 @@ public class Lab3Test {
       Path path = Paths.get(getClass().getClassLoader().getResource(fileName).toURI());
 
       return Files.readAllLines(path);
-    } catch (URISyntaxException | IOException e) {
+    } catch (Exception e) {
       Assertions.fail("Failed to load test data file");
     }
-    return null;
+    return List.of();
   }
 }
